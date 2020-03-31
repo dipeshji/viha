@@ -1,0 +1,30 @@
+<div class="container-fluid h-100" *ngIf="active.children.length===0" >
+    <div class="row w-50 mx-auto text-center">
+        <div class="form col-12">
+            <div class="mt-4">
+                <b>Login</b>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-50" appearance="fill">
+                    <mat-label>Email ID</mat-label>
+                    <input matInput [(ngModel)]=email [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-50" appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" [(ngModel)]=password [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-checkbox [formControl]="loggedin">Keep me loggedin</mat-checkbox>
+            </div>
+            <div class="mt-4">
+                <button (click)="login()" type="button" class="btn btn-success btn-lg btn-block w-50 mx-auto"
+                    style="font-size: larger;">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

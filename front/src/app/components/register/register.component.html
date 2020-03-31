@@ -1,0 +1,59 @@
+<div class="container-fluid  bg-light mt-3 h-100">
+    <div class="row w-50 mx-auto text-center mt-5">
+        <div class="form col-12" [formGroup]="myform">
+            <div> <b>Register</b> </div>
+            <div class="mt-4 text-left">
+                <label class="image-upload-container btn btn-bwm">
+                    <span>Select Image &nbsp;</span>
+                    <input #imageInput type="file" accept="image/*" (change)="profileimg($event)">
+                </label>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Enter your name</mat-label>
+                    <input matInput placeholder="Jhon Doe" formControlName="name" required>
+                </mat-form-field>
+                <span *ngIf="isvalid('name')" style="color: red;">Entered name is invalid!!</span>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Enter your email</mat-label>
+                    <input matInput placeholder="pat@example.com" formControlName="email" required>
+                </mat-form-field>
+                <span *ngIf="isvalid('email')" style="color: red;">Entered Email is invalid!!</span>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Enter your date of birth</mat-label>
+                    <input matInput placeholder="yyyy-mm-dd" formControlName="dob" required>
+                </mat-form-field>
+                <span *ngIf="isvalid('dob')" style="color: red;">Entered date is invalid!!</span>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Enter your mobile number</mat-label>
+                    <input matInput placeholder="123456789" formControlName="mobile_number" required>
+                </mat-form-field>
+                <span *ngIf="isvalid('mobile_number')" style="color: red;">Entered number is invalid!!</span>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Enter password</mat-label>
+                    <input matInput formControlName="password" required type="password">
+                </mat-form-field>
+                <span *ngIf="isvalid('password')" style="color: red;">Entered password is invalid!!</span>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Confirm password</mat-label>
+                    <input matInput formControlName="cnfpass" required>
+                </mat-form-field>
+                <span *ngIf="isvalid('cnfpass')" style="color: red;">Entered password is wrong!!</span>
+            </div>
+            <div class="mt-4">
+                <button (click)="register()" type="button" class="btn btn-primary btn-lg btn-block"
+                    style="font-size: larger;">Register</button>
+            </div>
+        </div>
+    </div>
+</div>

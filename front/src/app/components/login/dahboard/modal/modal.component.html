@@ -1,0 +1,26 @@
+<div class="row" *ngIf = "data == 'request'">
+    <div class="col col-xs-12 col-md-12">
+        <span style="font-size: 4vh;">{{shownotification}}</span>
+    </div>
+    <div class="col col-xs-12 col-md-6">
+        <button class="btn btn-success" (click)="confirm()">
+            Confirm
+        </button>
+    </div>
+    <div class="col col-xs-12 col-md-6">
+        <button class="btn btn-danger" (click)="ignore()">
+            Ignore 
+        </button>
+    </div>
+</div>
+
+<div class="row" *ngIf = "data == 'accepted'">
+    <div class="col col-xs-12 col-md-12">
+        <span style="font-size: 4vh;">{{shownotification}}</span>
+    </div>
+    <div class="col col-xs-12 col-md-12 ">
+        <button class="btn btn-success float-md-right" (click)="ignore()">
+            Okay
+        </button>
+    </div>
+</div>
