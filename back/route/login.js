@@ -9,8 +9,14 @@ router.get('/loginuser', (req, res) => {
     if (params.id !== 'undefined' && params.password !== 'undefined') {
         loginuser.Login_user(params)
             .then(user => {
-                let token = jwt.sign({ user: user.Email }, 'secret')
-                res.status(200).json({ "token": token, "status": true })
+                if(user.Email === undefined){
+                    let token = jwt.sign({ user: user.User_id }, 'secret')
+                    res.status(200).json({ "token": token, "status": true, "User_id": user.User_id })
+                }else{
+                    let token = jwt.sign({ user: user.Email }, 'secret')
+                    res.status(200).json({ "token": token, "status": true, "User_id": user.User_id })
+                }
+               
             }).catch(msg => {
                 res.json(msg)
             })
@@ -50,7 +56,6 @@ router.get('/addasfriend',verifytoken,(req,res) => {
 
 router.get('/getadduser', (req,res)=>{
     loginuser.getadduserdata(req.query.user).then(user =>{
-        console.log(user);
         res.json({"status": true, "user": user})
     })
 })
@@ -58,7 +63,6 @@ router.get('/getadduser', (req,res)=>{
 router.get('/confirm', (req,res)=>{
     let senttouser = req.query.senttouser;
     let sentbyuser = req.query.sentbyuser;
-    console.log(`${senttouser} ${sentbyuser}`);
     
     loginuser.confirm(sentbyuser,senttouser).then(status=>{
         res.json(status);
@@ -68,7 +72,7 @@ router.get('/confirm', (req,res)=>{
 var decodedtoken = '';
 
 function verifytoken(req, res, next) {
-    let token = req.query.token;    
+    let token = req.query.token;  
     jwt.verify(token, 'secret', (err, tokendata) => {
         if (err) {
             res.json({ "status": false });

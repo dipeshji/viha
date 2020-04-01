@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { LoginService } from '../../../../services/loginservice/login.service'
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { AdminFeedService } from 'src/app/services/admin_feed/admin-feed.service'
 
 @Component({
   selector: 'app-modal',
@@ -11,8 +13,14 @@ export class ModalComponent implements OnInit {
   user: any;
   shownotification: any;
   dialogtoopen: String;
-  constructor(private dialogRef: MatDialogRef<ModalComponent>, @Optional() @Inject(MAT_DIALOG_DATA) public data: any, private _notification: LoginService) {
-    this.dialogtoopen = data    
+  feedbackform: FormGroup;
+  formtype = new FormControl(null)
+
+  constructor(private dialogRef: MatDialogRef<ModalComponent>, @Optional() @Inject(MAT_DIALOG_DATA) public data: any, private _notification: LoginService, private feedback:AdminFeedService) {
+    this.dialogtoopen = data  
+    this.feedbackform =  new FormGroup({
+      formfeed: new FormControl(null),
+    })
    }
 
   ngOnInit() {
@@ -37,5 +45,19 @@ export class ModalComponent implements OnInit {
       this._notification.sendData(data.Notification);
     })
 
+  }
+  submitfeedback(){
+    console.log("submit");
+    
+    const add_to_form = new FormData();
+    add_to_form.append('formfeed', this.feedbackform.value.formfeed);
+    add_to_form.append('name', this.user.Name);
+    
+    this.feedback.submit_feedback(add_to_form).subscribe(data=>{
+      if(data.status){
+        alert("Feedback submitted");
+        this.dialogRef.close();
+      }
+    })
   }
 }

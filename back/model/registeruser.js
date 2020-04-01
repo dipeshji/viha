@@ -25,10 +25,10 @@ var user_schema = new schema({
         required: true
     }, Notification: {
         type: Array,
-        default: null
+        default: ''
     }, Status: {
         type: String,
-        default: null
+        default: ''
     },
     Profile_img: {
         type: String
@@ -39,7 +39,7 @@ var admin_schema = new schema({
     User_id: {
         type: String
     },
-    password: {
+    Password: {
         type: String
     },
     Feedbacks: [{
@@ -54,20 +54,30 @@ var admin_schema = new schema({
     }]
 });
 
-const userModel = module.exports = mongoose.model('User', user_schema);
-const adminModel = module.exports = mongoose.model('Admin', admin_schema)
+// const userModel = module.exports = mongoose.model('User', user_schema);
+// const adminModel = module.exports = mongoose.model('Admin', admin_schema);
+userModel = mongoose.model('User', user_schema);
+adminModel = mongoose.model('Admin', admin_schema);
+
+
 
 module.exports.register_user = ((userbody, img) => {
     return new Promise((resolve, reject) => {
-        userModel.findOne({ Email: userbody.email })
+        let query = {$or:[{Email: userbody.email},{Name: userbody.name}]};
+        userModel.findOne(query)
             .exec((err, user) => {
                 if (user) {
-                    if (user.Name === userbody.name) {
+                    if (user.Name === userbody.name && user.Email === userbody.email) {
                         reject({
                             "status": false,
                             "msg": `User with ${userbody.email} and ${userbody.name} already exist!!`
                         })
-                    } else {
+                    } else if(user.Name === userbody.name){
+                        reject({
+                            "status": false,
+                            "msg": `User with ${userbody.name} already exist!!`
+                        })
+                    }else{
                         reject({
                             "status": false,
                             "msg": `User with ${userbody.email} already exist!!`
@@ -79,7 +89,7 @@ module.exports.register_user = ((userbody, img) => {
                             .then(hash => {
                                 let adminuser = {
                                     User_id: userbody.email,
-                                    password: hash
+                                    Password: hash
                                 }
 
                                 adminModel.create(adminuser, (err, user) => {
@@ -106,7 +116,6 @@ module.exports.register_user = ((userbody, img) => {
                                     DOB: isoDate(userbody.dob),
                                     Mobile_Number: userbody.mobile_number,
                                     Email: userbody.email,
-                                    Notification: null,
                                     Status: userbody.status,
                                     Profile_img: img.filename
                                 }
@@ -149,3 +158,6 @@ function isoDate(date) {
     }
     return day + '-' + month + '-' + date.getFullYear()
 }
+
+module.exports.userModel = userModel
+module.exports.adminModel = adminModel

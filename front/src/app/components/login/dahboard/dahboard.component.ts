@@ -46,16 +46,12 @@ export class DahboardComponent implements OnInit {
           if (data.user.Notification[0]) {
             this.badgeContent = 1;
             if (data.user.Notification[1] === "accepted") {
-              console.log(data.user.Notification[1]);
-
               this.dialogtoopen = "accepted";
             } else {
-              console.log(data.user.Notification[1]);
               this.dialogtoopen = "request";
             }
           }
         }
-
         this.profileimg = environment.basePath + 'uploads/' + data.user.Profile_img;
       })
   }

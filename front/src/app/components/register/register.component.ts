@@ -58,6 +58,7 @@ export class RegisterComponent implements OnInit {
       fd.append('mobile_number', this.myform.value.mobile_number);
       fd.append('password', this.myform.value.password);
       fd.append('status', "Not Friends");
+      
       this._myregister.register_user(fd)
         .subscribe(data => {
           alert(data.msg)

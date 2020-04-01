@@ -19,6 +19,7 @@ import { LoginComponent } from './components/login/login.component';
 import { DahboardComponent } from './components/login/dahboard/dahboard.component';
 import { AdduserdataComponent } from './components/adduserdata/adduserdata.component';
 import { ModalComponent } from './components/login/dahboard/modal/modal.component';
+import { AdminFeedComponent } from './components/admin-feed/admin-feed.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ModalComponent } from './components/login/dahboard/modal/modal.componen
     LoginComponent,
     DahboardComponent,
     AdduserdataComponent,
-    ModalComponent
+    ModalComponent,
+    AdminFeedComponent
   ],
   imports: [
     BrowserModule,

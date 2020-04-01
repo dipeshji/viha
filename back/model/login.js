@@ -1,10 +1,12 @@
 const util = require('../util');
 const userModel = require('../model/registeruser')
+const adminModel = require('../model/registeruser')
 
 async function Login_user(userbody) {
     let hash = await get_hash(userbody)
+    
     if (hash) {
-        let status = await util.decryptpass(userbody.password, hash.Password)
+        var status = await util.decryptpass(userbody.password, hash.Password)
         return new Promise((resolve, reject) => {
             if (status) {
                 resolve(hash)
@@ -26,52 +28,59 @@ async function Login_user(userbody) {
 };
 
 module.exports.get_user = (user) => {
-    return userModel.findOne({ Email: user }).exec();
+    if(user === "admin@gmail.com"){
+        return adminModel.adminModel.findOne({ User_id: user }).exec();
+
+    }else{
+    return userModel.userModel.findOne({ Email: user }).exec();
+
+    }
 }
 
 module.exports.searcheduser = (user) => {
-    return userModel.findOne({ Name: user.name }).exec();
+    return userModel.userModel.findOne({ Name: user.name }).exec();
 }
+
 var filter;
 var update;
 async function addasfriend(reqsentbyuser, reqsenttouser) {
-    await userModel.findOne({ Email: reqsentbyuser }).exec().then(user => {
+    await userModel.userModel.findOne({ Email: reqsentbyuser }).exec().then(user => {
         filter = { Email: reqsenttouser };
         notification = [`Got a request from ${user.Name}`, `${user.Email}`]
         update = { Notification: notification };
     });
-    return userModel.findOneAndUpdate(filter, update).exec();
+    return userModel.userModel.findOneAndUpdate(filter, update).exec();
 }
 
 module.exports.getadduserdata = (user) => {
-    return userModel.findOne({ Name: user }).exec();
+    return userModel.userModel.findOne({ Name: user }).exec();
 }
 
 module.exports.confirm = ((sentbyuser, senttouser) => {
     if (sentbyuser === null) {
-        return new Promise((resolve,reject)=>{
-            userModel.findOneAndUpdate({Email: senttouser},{Notification: [null,null]})
-            .exec((err,user)=>{
-                if(err){
-                    reject({"status": false})
-                }else{
-                    resolve({"status": true})
-                }
-            })
-        })
-    } else {
         return new Promise((resolve, reject) => {
-            userModel.findOne({ Email: senttouser })
+            userModel.userModel.findOneAndUpdate({ Email: senttouser }, { Notification: [null, null] })
                 .exec((err, user) => {
                     if (err) {
                         reject({ "status": false })
                     } else {
-                        userModel.findOneAndUpdate({ Email: sentbyuser }, { Notification: [`${user.Name} has accepted your request`, "accepted"], Status: "Friends" })
+                        resolve({ "status": true })
+                    }
+                })
+        })
+    } else {
+        return new Promise((resolve, reject) => {
+            userModel.userModel.findOne({ Email: senttouser })
+                .exec((err, user) => {
+                    if (err) {
+                        reject({ "status": false })
+                    } else {
+                        userModel.userModel.findOneAndUpdate({ Email: sentbyuser }, { Notification: [`${user.Name} has accepted your request`, "accepted"], Status: "Friends" })
                             .exec((err, user) => {
                                 if (err) {
                                     reject({ "status": false })
                                 } else {
-                                    userModel.findOneAndUpdate({ Email: senttouser }, { Notification: [null, null], Status: "Friends" })
+                                    userModel.userModel.findOneAndUpdate({ Email: senttouser }, { Notification: ['', ''], Status: "Friends" })
                                         .exec((err, user) => {
                                             if (err) {
                                                 reject({ "status": false })
@@ -90,8 +99,13 @@ module.exports.confirm = ((sentbyuser, senttouser) => {
 
 
 get_hash = (userbody => {
-    return userModel.findOne({ Email: userbody.id })
-        .exec()
+    if (userbody.id === "admin@gmail.com") {
+        return adminModel.adminModel.findOne({ User_id: userbody.id })
+            .exec()
+    } else {
+        return userModel.userModel.findOne({ Email: userbody.id })
+            .exec()
+    }
 });
 
 module.exports.Login_user = Login_user;

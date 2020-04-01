@@ -1,4 +1,4 @@
-<div class="row" *ngIf = "data == 'request'">
+<div class="row" *ngIf="data == 'request'">
     <div class="col col-xs-12 col-md-12">
         <span style="font-size: 4vh;">{{shownotification}}</span>
     </div>
@@ -9,12 +9,12 @@
     </div>
     <div class="col col-xs-12 col-md-6">
         <button class="btn btn-danger" (click)="ignore()">
-            Ignore 
+            Ignore
         </button>
     </div>
 </div>
 
-<div class="row" *ngIf = "data == 'accepted'">
+<div class="row" *ngIf="data == 'accepted'">
     <div class="col col-xs-12 col-md-12">
         <span style="font-size: 4vh;">{{shownotification}}</span>
     </div>
@@ -22,5 +22,27 @@
         <button class="btn btn-success float-md-right" (click)="ignore()">
             Okay
         </button>
+    </div>
+</div>
+
+<div class="row" *ngIf="data == 'Feedback'" [formGroup]="feedbackform">
+    <div class="col-12">
+        <div>
+            <label>Form type: </label>
+            <mat-radio-group class="ml-4" [formControl]="formtype">
+                <mat-radio-button value="A">A</mat-radio-button>
+                <mat-radio-button value="B" class="ml-4">B</mat-radio-button>
+                <mat-radio-button value="C" class="ml-4">C</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+    <div class="col-12" *ngIf = "formtype?.value != null">
+        <mat-form-field class="w-100">
+            <mat-label>Your Feedback</mat-label>
+            <textarea matInput placeholder="Ex. You are a Awesome Developer" formControlName="formfeed"></textarea>
+        </mat-form-field>
+    </div>
+    <div class="col-12" *ngIf = "formtype?.value != null">
+        <button class="btn btn-block btn-success btn-lg" type="submit" (click)="submitfeedback()">Submit</button>
     </div>
 </div>
