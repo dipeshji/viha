@@ -29,6 +29,8 @@ router.get('/loginuser', (req, res) => {
 router.get('/authenticate', verifytoken, (req, res) => {
     loginuser.get_user(decodedtoken.user).then(user =>{
         res.status(200).json({ "status": true, "user": user})
+    }).catch(()=>{
+        res.json({"status": false})
     })
 })
 

@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 var feed_submit = require('../model/feedback')
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
 
 
-router.post('/feedback', (req,res)=>{
+router.post('/feedback', upload.none(), (req,res)=>{
     let user = req.body.name;
     let msg = req.body.formfeed;
     

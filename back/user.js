@@ -3,8 +3,7 @@ const cors = require('cors');
 const body_parser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path')
-const multer = require('multer')
-const upload = multer();
+
 
 const port = 3000
 
@@ -18,7 +17,6 @@ console.log(path.join(__dirname, './uploads/'));
 app.use(cors());
 app.use(body_parser.urlencoded({ extended: true }));
 app.use(body_parser.json());
-app.use(upload.array());
 
 const dburl = 'mongodb://localhost:27017/test_db'
 mongoose.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true })

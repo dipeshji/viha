@@ -1,0 +1,6 @@
+.feedcol{
+    overflow-y: auto;
+    box-sizing: border-box;
+    background-color: white;
+    height: auto !important;
+}
