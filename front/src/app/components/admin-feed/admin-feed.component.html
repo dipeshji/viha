@@ -1,26 +1,20 @@
-<div class="container-fluid h-100 pt-5" style="background-color: #040C0E;">
+<div class="container-fluid h-100 pt-5 overflow-auto" style="background-color: #040C0E;">
+   <div class="container-fluid">
     <div class="row" style="overflow-y: auto;">
-        <label style="background-color: #F1BA48; font-size: 4vh;">User Feedbacks :-</label>
-        <div class="col-12 h-auto feedcol">
-            <ul>
-                <li *ngFor="let feed of feeds" style="list-style: none; background-color: white;">
-                    <span class="bg-primary">{{feed?.name}} :-</span><br>
-                    <span style="background-color: #F1BA48;">{{feed?.feedbackmsg}}</span>
-                </li>
-            </ul>
-        </div>
+        <label class="ml-3" style="background-color: #F1BA48; font-size: 4vh;">User Feedbacks :-</label>
         <div class="col-12 mt-4">
-            <button class="btn btn-danger float-right" (click)="logout()"> Logout </button>
+            <div class="d-flex bg-success overflow-auto">
+                <ul>
+                    <li *ngFor="let feed of feeds" style="list-style: none;">
+                        <span class="bg-primary">{{feed?.name}} :-</span><br>
+                        <span style="background-color: #F1BA48;">{{feed?.feedbackmsg}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 ">
+            <button class="btn btn-danger btn-lg float-right mt-5" (click)="logout()"> Logout </button>
         </div>
     </div>
+   </div>
 </div>
-<!-- <textarea class="form-control" id="exampleFormControlTextarea1" rows="15">
-    <ul>
-        <li *ngFor="let feed of feeds" style="list-style: none;">
-            <span>{{feed?.name}}</span>
-        </li>
-    </ul>
-</textarea> -->
-<!-- <span>{{feed?.name}}</span> -->
-<!-- <span class="bg-primary">{{feed?.name}}</span><br>
-                            <span style="background-color: #F1BA48;">{{feed?.feedbackmsg}}</span> -->
